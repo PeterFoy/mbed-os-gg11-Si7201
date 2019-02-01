@@ -3,7 +3,7 @@
 <title>Static Call Graph - [.\BUILD\mbed-os-gg11-Si7201.axf]</title></head>
 <body><HR>
 <H1>Static Call Graph for image .\BUILD\mbed-os-gg11-Si7201.axf</H1><HR>
-<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Feb 01 11:27:24 2019
+<BR><P>#&#060CALLGRAPH&#062# ARM Linker, 5060750: Last Updated: Fri Feb 01 15:27:29 2019
 <BR><P>
 <H3>Maximum Stack Usage =        848 bytes + Unknown(Cycles, Untraceable Function Pointers)</H3><H3>
 Call chain for Maximum Stack Depth:</H3>
@@ -1962,8 +1962,7 @@ Global Symbols
 </UL>
 <BR>[Calls]<UL><LI><a href="#[186]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CMU_ClockPrescSet
 </UL>
-<BR>[Called By]<UL><LI><a href="#[2cc]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;main
-<LI><a href="#[31b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;serial_leuart_baud
+<BR>[Called By]<UL><LI><a href="#[31b]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;serial_leuart_baud
 </UL>
 
 <P><STRONG><a name="[187]"></a>CMU_ClockEnable</STRONG> (Thumb, 168 bytes, Stack size 24 bytes, .\build\em_cmu.o(i.CMU_ClockEnable))
@@ -4345,7 +4344,7 @@ Global Symbols
 <BR>[Called By]<UL><LI><a href="#[16e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;_sys_seek
 </UL>
 
-<P><STRONG><a name="[2cc]"></a>main</STRONG> (Thumb, 316 bytes, Stack size 8 bytes, .\build\main.o(i.main))
+<P><STRONG><a name="[2cc]"></a>main</STRONG> (Thumb, 274 bytes, Stack size 8 bytes, .\build\main.o(i.main))
 <BR><BR>[Stack]<UL><LI>Max Depth = 600 + Unknown Stack Size
 <LI>Call Chain = main &rArr; wait &rArr; sleep_manager_lock_deep_sleep_internal &rArr; mbed_error &rArr; print_error_report &rArr; mbed_error_puts &rArr; write &rArr; get_fhc(int) &rArr; get_console(int) &rArr; default_console() &rArr; DirectSerial::DirectSerial(PinName, PinName, int) &rArr; serial_init &rArr; serial_preinit &rArr; pin_location &rArr; error &rArr;  print_error_report (Cycle)
 </UL>
@@ -4355,7 +4354,6 @@ Global Symbols
 <LI><a href="#[2cd]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;wait
 <LI><a href="#[246]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;gpio_write
 <LI><a href="#[18a]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CMU_ClockFreqGet
-<LI><a href="#[185]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;CMU_ClockDivSet
 <LI><a href="#[22c]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mbed::SerialBase::baud(int)
 <LI><a href="#[25e]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;mbed::Stream::printf(const char*, ...)
 <LI><a href="#[1ff]">&gt;&gt;</a>&nbsp;&nbsp;&nbsp;readSensor()

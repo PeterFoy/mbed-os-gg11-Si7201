@@ -99,16 +99,18 @@ int main() {
 	
 	// Clock Management Unit def in efm32gg11b_cmu.h
     pCMU = (CMU_TypeDef *) CMU_BASE; // Have to type cast to structure pointer
-	  pCMU->LOCK |= CMU_LOCK_LOCKKEY_UNLOCK; 
-			while ((pCMU->LOCK));  //pCMU->LOCK = 1 when locked 0 when unlocked
-	  CMU_ClockDivSet(cmuClock_I2C2, cmuClkDiv_4);
-	//pCMU->HFPERPRESCC |= (0x004 << 8); // 9 bits starting at bit 8
-		pCMU->LOCK |= CMU_LOCK_LOCKKEY_LOCK; 
+	 /* pCMU->LOCK |= CMU_LOCK_LOCKKEY_UNLOCK; 
+	//		while ((pCMU->LOCK));  //pCMU->LOCK = 1 when locked 0 when unlocked
+	 // CMU_ClockDivSet(cmuClock_I2C2, cmuClkDiv_4);
+	  pCMU->HFPERPRESCC = 0x02; // 9 bits starting at bit 8
+		//pCMU->LOCK |= CMU_LOCK_LOCKKEY_LOCK; */
 	
 	//	CMU_ClockDivSet(cmuClock_I2C2, cmuClkDiv_4);
 	  CMU_ClockEnable(cmuClock_HFPER, true);
+	  pCMU->HFPERPRESCC = 0x20;
+	  CMU_ClockEnable(cmuClock_I2C2, true);
     CMU_ClockEnable(cmuClock_GPIO, true);
-   //CMU_ClockEnable(cmuClock_I2C2, true);
+
 	 //CMU_ClockPrescSet(cmuClock_I2C2, 3);
    //CMU_HFRCOFreqSet(cmuHFRCOFreq_19M0Hz);
 	
