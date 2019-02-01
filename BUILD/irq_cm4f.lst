@@ -1,0 +1,503 @@
+
+
+
+ARM Macro Assembler    Page 1 
+
+
+    1 00000000         #line   1                "mbed-os\\rtos\\TARGET_CORTEX\\
+rtx5\\RTX\\Source\\TOOLCHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S"
+    1 00000000         ;
+    2 00000000         
+    3 00000000         
+    4 00000000         
+    5 00000000         
+    6 00000000         
+    7 00000000         
+    8 00000000         
+    9 00000000         
+   10 00000000         
+   11 00000000         
+   12 00000000         
+   13 00000000         
+   14 00000000         
+   15 00000000         
+   16 00000000         
+   17 00000000         
+   18 00000000         
+   19 00000000         
+   20 00000000         
+   21 00000000         
+   22 00000000         
+   23 00000000         
+   24 00000000         
+   25 00000000         
+   26 00000000         
+   27 00000000 00000014 
+                       I_T_RUN_OFS
+                               EQU              20          ; osRtxInfo.thread.
+                                                            run offset
+   28 00000000 00000038 
+                       TCB_SP_OFS
+                               EQU              56          ; TCB.SP offset
+   29 00000000 00000022 
+                       TCB_SF_OFS
+                               EQU              34          ; TCB.stack_frame o
+                                                            ffset
+   30 00000000         
+   31 00000000         
+   32 00000000                 PRESERVE8
+   33 00000000                 THUMB
+   34 00000000         
+   35 00000000         
+   36 00000000                 AREA             |.constdata|, DATA, READONLY
+   37 00000000                 EXPORT           irqRtxLib
+   38 00000000 00      irqRtxLib
+                               DCB              0           ; Non weak library 
+                                                            reference
+   39 00000001         
+   40 00000001         
+   41 00000001                 AREA             |.text|, CODE, READONLY
+   42 00000000         
+   43 00000000         
+   44 00000000         SVC_Handler
+                               PROC
+   45 00000000                 EXPORT           SVC_Handler
+   46 00000000                 IMPORT           osRtxUserSVC
+
+
+
+ARM Macro Assembler    Page 2 
+
+
+   47 00000000                 IMPORT           osRtxInfo
+   48 00000000                 IF               :DEF:MPU_LOAD
+   50                          ENDIF
+   51 00000000         
+   52 00000000 F01E 0F04       TST              LR,#0x04    ; Determine return 
+                                                            stack from EXC_RETU
+                                                            RN bit 2
+   53 00000004 BF0C            ITE              EQ
+   54 00000006 F3EF 8008       MRSEQ            R0,MSP      ; Get MSP if return
+                                                             stack is MSP
+   55 0000000A F3EF 8009       MRSNE            R0,PSP      ; Get PSP if return
+                                                             stack is PSP
+   56 0000000E         
+   57 0000000E 6981            LDR              R1,[R0,#24] ; Load saved PC fro
+                                                            m stack
+   58 00000010 F811 1C02       LDRB             R1,[R1,#-2] ; Load SVC number
+   59 00000014 BB91            CBNZ             R1,SVC_User ; Branch if not SVC
+                                                             0
+   60 00000016         
+   61 00000016 B501            PUSH             {R0,LR}     ; Save SP and EXC_R
+                                                            ETURN
+   62 00000018 E890 100F       LDM              R0,{R0-R3,R12} ; Load function 
+                                                            parameters and addr
+                                                            ess from stack
+   63 0000001C 47E0            BLX              R12         ; Call service func
+                                                            tion
+   64 0000001E E8BD 5000       POP              {R12,LR}    ; Restore SP and EX
+                                                            C_RETURN
+   65 00000022 E88C 0003       STM              R12,{R0-R1} ; Store function re
+                                                            turn values
+   66 00000026         
+   67 00000026         SVC_Context
+   68 00000026 4B24            LDR              R3,=osRtxInfo+I_T_RUN_OFS ; Loa
+                                                            d address of osRtxI
+                                                            nfo.run
+   69 00000028 E893 0006       LDM              R3,{R1,R2}  ; Load osRtxInfo.th
+                                                            read.run: curr & ne
+                                                            xt
+   70 0000002C 4291            CMP              R1,R2       ; Check if thread s
+                                                            witch is required
+   71 0000002E BF08            IT               EQ
+   72 00000030 4770            BXEQ             LR          ; Exit when threads
+                                                             are the same
+   73 00000032         
+   74 00000032 B941            CBNZ             R1,SVC_ContextSave ; Branch if 
+                                                            running thread is n
+                                                            ot deleted
+   75 00000034 F01E 0F10       TST              LR,#0x10    ; Check if extended
+                                                             stack frame
+   76 00000038 D110            BNE              SVC_ContextSwitch
+   77 0000003A         
+   78 0000003A 4920            LDR              R1,=0xE000EF34 ; FPCCR Address
+   79 0000003C 6808            LDR              R0,[R1]     ; Load FPCCR
+   80 0000003E F020 0001       BIC              R0,R0,#1    ; Clear LSPACT (Laz
+                                                            y state)
+   81 00000042 6008            STR              R0,[R1]     ; Store FPCCR
+   82 00000044 E00A            B                SVC_ContextSwitch
+   83 00000046         
+   84 00000046         
+
+
+
+ARM Macro Assembler    Page 3 
+
+
+   85 00000046         SVC_ContextSave
+   86 00000046 E92C 0FF0       STMDB            R12!,{R4-R11} ; Save R4..R11
+   87 0000004A         
+   88 0000004A F01E 0F10       TST              LR,#0x10    ; Check if extended
+                                                             stack frame
+   89 0000004E BF08            IT               EQ
+   90 00000050 ED2C 8A10       VSTMDBEQ         R12!,{S16-S31} 
+                                                            ;  Save VFP S16.S31
+                                                            
+   91 00000054         
+   92 00000054         
+   93 00000054 F8C1 C038       STR              R12,[R1,#TCB_SP_OFS] ; Store SP
+                                                            
+   94 00000058 F881 E022       STRB             LR, [R1,#TCB_SF_OFS] ; Store st
+                                                            ack frame informati
+                                                            on
+   95 0000005C         
+   96 0000005C         SVC_ContextSwitch
+   97 0000005C 601A            STR              R2,[R3]     ; osRtxInfo.thread.
+                                                            run: curr = next
+   98 0000005E         
+   99 0000005E                 IF               :DEF:MPU_LOAD
+  104                          ENDIF
+  105 0000005E         
+  106 0000005E         SVC_ContextRestore
+  107 0000005E F892 1022       LDRB             R1,[R2,#TCB_SF_OFS] ; Load stac
+                                                            k frame information
+                                                            
+  108 00000062 6B90            LDR              R0,[R2,#TCB_SP_OFS] ; Load SP
+  109 00000064 F061 0EFF       ORR              LR,R1,#0xFFFFFF00 
+                                                            ; Set EXC_RETURN
+  110 00000068         
+  111 00000068         
+  112 00000068 F01E 0F10       TST              LR,#0x10    ; Check if extended
+                                                             stack frame
+  113 0000006C BF08            IT               EQ
+  114 0000006E ECB0 8A10       VLDMIAEQ         R0!,{S16-S31} ;  Restore VFP S1
+                                                            6..S31
+  115 00000072         
+  116 00000072 E8B0 0FF0       LDMIA            R0!,{R4-R11} ; Restore R4..R11
+  117 00000076 F380 8809       MSR              PSP,R0      ; Set PSP
+  118 0000007A         
+  119 0000007A         SVC_Exit
+  120 0000007A 4770            BX               LR          ; Exit from handler
+                                                            
+  121 0000007C         
+  122 0000007C         SVC_User
+  123 0000007C 4A10            LDR              R2,=osRtxUserSVC ; Load address
+                                                             of SVC table
+  124 0000007E 6813            LDR              R3,[R2]     ; Load SVC maximum 
+                                                            number
+  125 00000080 4299            CMP              R1,R3       ; Check SVC number 
+                                                            range
+  126 00000082 D8FA            BHI              SVC_Exit    ; Branch if out of 
+                                                            range
+  127 00000084         
+  128 00000084 B501            PUSH             {R0,LR}     ; Save SP and EXC_R
+                                                            ETURN
+  129 00000086 F852 C021       LDR              R12,[R2,R1,LSL #2] ; Load addre
+
+
+
+ARM Macro Assembler    Page 4 
+
+
+                                                            ss of SVC function
+  130 0000008A C80F            LDM              R0,{R0-R3}  ; Load function par
+                                                            ameters from stack
+  131 0000008C 47E0            BLX              R12         ; Call service func
+                                                            tion
+  132 0000008E E8BD 5000       POP              {R12,LR}    ; Restore SP and EX
+                                                            C_RETURN
+  133 00000092 F8CC 0000       STR              R0,[R12]    ; Store function re
+                                                            turn value
+  134 00000096         
+  135 00000096 4770            BX               LR          ; Return from handl
+                                                            er
+  136 00000098         
+  137 00000098                 ALIGN
+  138 00000098                 ENDP
+  139 00000098         
+  140 00000098         
+  141 00000098         PendSV_Handler
+                               PROC
+  142 00000098                 EXPORT           PendSV_Handler
+  143 00000098                 IMPORT           osRtxPendSV_Handler
+  144 00000098         
+  145 00000098 B501            PUSH             {R0,LR}     ; Save EXC_RETURN
+  146 0000009A F7FF FFFE       BL               osRtxPendSV_Handler ; Call osRt
+                                                            xPendSV_Handler
+  147 0000009E E8BD 4001       POP              {R0,LR}     ; Restore EXC_RETUR
+                                                            N
+  148 000000A2 F3EF 8C09       MRS              R12,PSP
+  149 000000A6 E7BE            B                SVC_Context
+  150 000000A8         
+  151 000000A8                 ALIGN
+  152 000000A8                 ENDP
+  153 000000A8         
+  154 000000A8         
+  155 000000A8         SysTick_Handler
+                               PROC
+  156 000000A8                 EXPORT           SysTick_Handler
+  157 000000A8                 IMPORT           osRtxTick_Handler
+  158 000000A8         
+  159 000000A8 B501            PUSH             {R0,LR}     ; Save EXC_RETURN
+  160 000000AA F7FF FFFE       BL               osRtxTick_Handler ; Call osRtxT
+                                                            ick_Handler
+  161 000000AE E8BD 4001       POP              {R0,LR}     ; Restore EXC_RETUR
+                                                            N
+  162 000000B2 F3EF 8C09       MRS              R12,PSP
+  163 000000B6 E7B6            B                SVC_Context
+  164 000000B8         
+  165 000000B8                 ALIGN
+  166 000000B8                 ENDP
+  167 000000B8         
+  168 000000B8         
+  169 000000B8                 END
+              00000014 
+              E000EF34 
+              00000000 
+Command Line: --debug --xref --cpreproc --diag_suppress=9931 --cpu=Cortex-M4.fp
+ --apcs=interwork --depend=.\build\irq_cm4f.d -o.\build\irq_cm4f.o -I.\RTE\_mbe
+d-os-gg11-Si7201 -IC:\Keil_v5\ARM\PACK\SiliconLabs\EFM32GG11B_DFP\5.7.0\Device\
+SiliconLabs\EFM32GG11B\Include -IC:\Keil_v5\ARM\CMSIS\Include -IC:\Keil_v5\ARM\
+
+
+
+ARM Macro Assembler    Page 5 
+
+
+PACK\SiliconLabs\EFM32GG11B_DFP\5.7.0 --predefine="__UVISION_VERSION SETA 525" 
+--predefine="EFM32GG11B820F2048GL192 SETA 1" --cpreproc_opts=-D__ASSERT_MSG,-DT
+RANSACTION_QUEUE_SIZE_SPI=4,-DEFM32GG11B820F2048GL192,-DARM_MATH_CM4,-D__FPU_PR
+ESENT=1,-DEM_MSC_RUN_FROM_FLASH,-D__MBED_CMSIS_RTOS_CM,-D__CMSIS_RTOS,-D__CORTE
+X_M4,-DMBED_TICKLESS,-DMBEDTLS_CONFIG_HW_SUPPORT --list=.\build\irq_cm4f.lst mb
+ed-os\rtos\TARGET_CORTEX\rtx5\RTX\Source\TOOLCHAIN_ARM\TARGET_RTOS_M4_M7\irq_cm
+4f.S
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.constdata 00000000
+
+Symbol: .constdata
+   Definitions
+      At line 36 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      None
+Comment: .constdata unused
+irqRtxLib 00000000
+
+Symbol: irqRtxLib
+   Definitions
+      At line 38 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 37 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: irqRtxLib used once
+2 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Relocatable symbols
+
+.text 00000000
+
+Symbol: .text
+   Definitions
+      At line 41 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      None
+Comment: .text unused
+PendSV_Handler 00000098
+
+Symbol: PendSV_Handler
+   Definitions
+      At line 141 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 142 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: PendSV_Handler used once
+SVC_Context 00000026
+
+Symbol: SVC_Context
+   Definitions
+      At line 67 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 149 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+      At line 163 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+
+SVC_ContextRestore 0000005E
+
+Symbol: SVC_ContextRestore
+   Definitions
+      At line 106 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      None
+Comment: SVC_ContextRestore unused
+SVC_ContextSave 00000046
+
+Symbol: SVC_ContextSave
+   Definitions
+      At line 85 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 74 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: SVC_ContextSave used once
+SVC_ContextSwitch 0000005C
+
+Symbol: SVC_ContextSwitch
+   Definitions
+      At line 96 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 76 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+
+
+
+ARM Macro Assembler    Page 2 Alphabetic symbol ordering
+Relocatable symbols
+
+      At line 82 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+
+SVC_Exit 0000007A
+
+Symbol: SVC_Exit
+   Definitions
+      At line 119 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 126 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: SVC_Exit used once
+SVC_Handler 00000000
+
+Symbol: SVC_Handler
+   Definitions
+      At line 44 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 45 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: SVC_Handler used once
+SVC_User 0000007C
+
+Symbol: SVC_User
+   Definitions
+      At line 122 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 59 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: SVC_User used once
+SysTick_Handler 000000A8
+
+Symbol: SysTick_Handler
+   Definitions
+      At line 155 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 156 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: SysTick_Handler used once
+10 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+Absolute symbols
+
+I_T_RUN_OFS 00000014
+
+Symbol: I_T_RUN_OFS
+   Definitions
+      At line 27 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 68 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: I_T_RUN_OFS used once
+TCB_SF_OFS 00000022
+
+Symbol: TCB_SF_OFS
+   Definitions
+      At line 29 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 94 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+      At line 107 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+
+TCB_SP_OFS 00000038
+
+Symbol: TCB_SP_OFS
+   Definitions
+      At line 28 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 93 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+      At line 108 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+
+3 symbols
+
+
+
+ARM Macro Assembler    Page 1 Alphabetic symbol ordering
+External symbols
+
+osRtxInfo 00000000
+
+Symbol: osRtxInfo
+   Definitions
+      At line 47 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 68 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: osRtxInfo used once
+osRtxPendSV_Handler 00000000
+
+Symbol: osRtxPendSV_Handler
+   Definitions
+      At line 143 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 146 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: osRtxPendSV_Handler used once
+osRtxTick_Handler 00000000
+
+Symbol: osRtxTick_Handler
+   Definitions
+      At line 157 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 160 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: osRtxTick_Handler used once
+osRtxUserSVC 00000000
+
+Symbol: osRtxUserSVC
+   Definitions
+      At line 46 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOLC
+HAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+   Uses
+      At line 123 in file mbed-os\\rtos\\TARGET_CORTEX\\rtx5\\RTX\\Source\\TOOL
+CHAIN_ARM\\TARGET_RTOS_M4_M7\\irq_cm4f.S
+Comment: osRtxUserSVC used once
+4 symbols
+358 symbols in table

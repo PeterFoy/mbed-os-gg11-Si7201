@@ -1,0 +1,16 @@
+.\build\isodep_target.o: mbed-os\features\nfc\stack\tech\isodep\isodep_target.c
+.\build\isodep_target.o: mbed_config.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\tech\isodep\isodep_target.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack/nfc_common.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack/nfc_errors.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack/platform/nfc_debug.h
+.\build\isodep_target.o: mbed-os\features\nfc\acore\acore/ac_macros.h
+.\build\isodep_target.o: mbed-os\features\nfc\acore\acore/ac_buffer.h
+.\build\isodep_target.o: mbed-os\features\nfc\acore\acore/ac_buffer_reader.h
+.\build\isodep_target.o: mbed-os\features\nfc\acore\acore/ac_buffer_builder.h
+.\build\isodep_target.o: mbed-os\features\nfc\acore\acore/ac_stream.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\transceiver/transceiver.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\transceiver/protocols.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\platform/nfc_transport.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\platform/nfc_scheduler.h
+.\build\isodep_target.o: mbed-os\features\nfc\stack\tech\isodep\isodep.h

@@ -1,0 +1,17 @@
+.\build\nfcndefcapable.o: mbed-os\features\nfc\source\nfc\NFCNDEFCapable.cpp
+.\build\nfcndefcapable.o: mbed_config.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\nfc\NFCNDEFCapable.h
+.\build\nfcndefcapable.o: mbed-os\platform/Span.h
+.\build\nfcndefcapable.o: mbed-os\platform/mbed_assert.h
+.\build\nfcndefcapable.o: mbed-os\platform/mbed_preprocessor.h
+.\build\nfcndefcapable.o: mbed-os\platform/mbed_toolchain.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\nfc\NFCDefinitions.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\stack/nfc_errors.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\acore\acore/ac_buffer.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc/stack/ndef/ndef.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\stack/nfc_common.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\stack/platform/nfc_debug.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\acore\acore/ac_macros.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\acore\acore/ac_buffer_reader.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\acore\acore/ac_buffer_builder.h
+.\build\nfcndefcapable.o: mbed-os\features\nfc\acore\acore/ac_stream.h

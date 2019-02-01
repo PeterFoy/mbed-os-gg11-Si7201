@@ -1,0 +1,15 @@
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket\NetworkInterfaceDefaults.cpp
+.\build\networkinterfacedefaults.o: mbed_config.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket/NetworkInterface.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket/nsapi_types.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket/SocketAddress.h
+.\build\networkinterfacedefaults.o: mbed-os\platform\mbed_toolchain.h
+.\build\networkinterfacedefaults.o: mbed-os\platform\mbed_preprocessor.h
+.\build\networkinterfacedefaults.o: mbed-os\platform\Callback.h
+.\build\networkinterfacedefaults.o: mbed-os\platform/mbed_assert.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket/DNS.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket\EthInterface.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket\WiFiInterface.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket/WiFiAccessPoint.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket\CellularBase.h
+.\build\networkinterfacedefaults.o: mbed-os\features\netsocket\MeshInterface.h

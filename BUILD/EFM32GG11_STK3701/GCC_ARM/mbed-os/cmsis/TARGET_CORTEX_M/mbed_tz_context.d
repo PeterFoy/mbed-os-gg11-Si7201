@@ -1,0 +1,3 @@
+BUILD\EFM32GG11_STK3701\GCC_ARM\mbed-os\cmsis\TARGET_CORTEX_M\mbed_tz_context.o: \
+ mbed-os\cmsis\TARGET_CORTEX_M\mbed_tz_context.c \
+ BUILD\EFM32GG11_STK3701\GCC_ARM\mbed_config.h

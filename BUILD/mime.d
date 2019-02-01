@@ -1,0 +1,10 @@
+.\build\mime.o: mbed-os\features\nfc\source\nfc\ndef\common\Mime.cpp
+.\build\mime.o: mbed_config.h
+.\build\mime.o: mbed-os\features\nfc\nfc/ndef/common/Mime.h
+.\build\mime.o: mbed-os\platform/Span.h
+.\build\mime.o: mbed-os\platform/mbed_assert.h
+.\build\mime.o: mbed-os\platform/mbed_preprocessor.h
+.\build\mime.o: mbed-os\platform/mbed_toolchain.h
+.\build\mime.o: mbed-os\features\nfc\nfc/ndef/RecordParser.h
+.\build\mime.o: mbed-os\features\nfc\nfc/ndef/Record.h
+.\build\mime.o: mbed-os\features\nfc\nfc/ndef/MessageBuilder.h

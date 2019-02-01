@@ -1,0 +1,14 @@
+.\build\simplemessageparser.o: mbed-os\features\nfc\source\nfc\ndef\common\SimpleMessageParser.cpp
+.\build\simplemessageparser.o: mbed_config.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/common/SimpleMessageParser.h
+.\build\simplemessageparser.o: mbed-os\platform/Span.h
+.\build\simplemessageparser.o: mbed-os\platform/mbed_assert.h
+.\build\simplemessageparser.o: mbed-os\platform/mbed_preprocessor.h
+.\build\simplemessageparser.o: mbed-os\platform/mbed_toolchain.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/MessageParser.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/RecordParser.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/Record.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/common/URI.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/MessageBuilder.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/common/Text.h
+.\build\simplemessageparser.o: mbed-os\features\nfc\nfc/ndef/common/Mime.h

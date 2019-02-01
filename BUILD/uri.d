@@ -1,0 +1,10 @@
+.\build\uri.o: mbed-os\features\nfc\source\nfc\ndef\common\URI.cpp
+.\build\uri.o: mbed_config.h
+.\build\uri.o: mbed-os\features\nfc\nfc/ndef/common/URI.h
+.\build\uri.o: mbed-os\platform/Span.h
+.\build\uri.o: mbed-os\platform/mbed_assert.h
+.\build\uri.o: mbed-os\platform/mbed_preprocessor.h
+.\build\uri.o: mbed-os\platform/mbed_toolchain.h
+.\build\uri.o: mbed-os\features\nfc\nfc/ndef/RecordParser.h
+.\build\uri.o: mbed-os\features\nfc\nfc/ndef/Record.h
+.\build\uri.o: mbed-os\features\nfc\nfc/ndef/MessageBuilder.h

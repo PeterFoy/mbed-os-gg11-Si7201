@@ -1,0 +1,10 @@
+.\build\nvm_ram.o: mbed-os\features\nanostack\nanostack-hal-mbed-cmsis-rtos\nvm\nvm_ram.c
+.\build\nvm_ram.o: mbed_config.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\ns_types.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\ns_list.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\nsdynmemLIB.h
+.\build\nvm_ram.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\nanostack-event-loop\eventOS_event_timer.h
+.\build\nvm_ram.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\nanostack-event-loop\eventOS_event.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\platform/arm_hal_nvm.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\ns_trace.h
+.\build\nvm_ram.o: mbed-os\features\frameworks\mbed-trace\mbed-trace/mbed_trace.h

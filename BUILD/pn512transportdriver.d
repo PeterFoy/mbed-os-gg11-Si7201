@@ -1,0 +1,12 @@
+.\build\pn512transportdriver.o: mbed-os\features\nfc\source\controllers\PN512TransportDriver.cpp
+.\build\pn512transportdriver.o: mbed_config.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\controllers\PN512TransportDriver.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\stack/platform/nfc_transport.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\stack/nfc_common.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\stack/nfc_errors.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\stack/platform/nfc_debug.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\acore\acore/ac_macros.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\acore\acore/ac_buffer.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\acore\acore/ac_buffer_reader.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\acore\acore/ac_buffer_builder.h
+.\build\pn512transportdriver.o: mbed-os\features\nfc\acore\acore/ac_stream.h

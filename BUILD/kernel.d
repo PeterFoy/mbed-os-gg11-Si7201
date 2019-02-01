@@ -1,0 +1,9 @@
+.\build\kernel.o: mbed-os\rtos\Kernel.cpp
+.\build\kernel.o: mbed_config.h
+.\build\kernel.o: mbed-os\rtos\TARGET_CORTEX\rtx5\Include\cmsis_os2.h
+.\build\kernel.o: mbed-os\rtos/Kernel.h
+.\build\kernel.o: mbed-os\rtos/rtos_idle.h
+.\build\kernel.o: mbed-os\platform\mbed_toolchain.h
+.\build\kernel.o: mbed-os\platform\mbed_preprocessor.h
+.\build\kernel.o: mbed-os\rtos/rtos_handlers.h
+.\build\kernel.o: mbed-os\platform/mbed_critical.h

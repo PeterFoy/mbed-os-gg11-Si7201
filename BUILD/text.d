@@ -1,0 +1,10 @@
+.\build\text.o: mbed-os\features\nfc\source\nfc\ndef\common\Text.cpp
+.\build\text.o: mbed_config.h
+.\build\text.o: mbed-os\features\nfc\nfc/ndef/common/Text.h
+.\build\text.o: mbed-os\platform/Span.h
+.\build\text.o: mbed-os\platform/mbed_assert.h
+.\build\text.o: mbed-os\platform/mbed_preprocessor.h
+.\build\text.o: mbed-os\platform/mbed_toolchain.h
+.\build\text.o: mbed-os\features\nfc\nfc/ndef/RecordParser.h
+.\build\text.o: mbed-os\features\nfc\nfc/ndef/Record.h
+.\build\text.o: mbed-os\features\nfc\nfc/ndef/MessageBuilder.h

@@ -1,0 +1,11 @@
+.\build\ndef.o: mbed-os\features\nfc\stack\ndef\ndef.c
+.\build\ndef.o: mbed_config.h
+.\build\ndef.o: mbed-os\features\nfc\stack\ndef\ndef.h
+.\build\ndef.o: mbed-os\features\nfc\stack/nfc_common.h
+.\build\ndef.o: mbed-os\features\nfc\stack/nfc_errors.h
+.\build\ndef.o: mbed-os\features\nfc\stack/platform/nfc_debug.h
+.\build\ndef.o: mbed-os\features\nfc\acore\acore/ac_macros.h
+.\build\ndef.o: mbed-os\features\nfc\acore\acore/ac_buffer.h
+.\build\ndef.o: mbed-os\features\nfc\acore\acore/ac_buffer_reader.h
+.\build\ndef.o: mbed-os\features\nfc\acore\acore/ac_buffer_builder.h
+.\build\ndef.o: mbed-os\features\nfc\acore\acore/ac_stream.h

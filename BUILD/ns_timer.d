@@ -1,0 +1,10 @@
+.\build\ns_timer.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\source\ns_timer.c
+.\build\ns_timer.o: mbed_config.h
+.\build\ns_timer.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\ns_types.h
+.\build\ns_timer.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\ns_list.h
+.\build\ns_timer.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\source\ns_timer.h
+.\build\ns_timer.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\nanostack-event-loop\platform/eventloop_config.h
+.\build\ns_timer.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\nanostack-event-loop\eventOS_callback_timer.h
+.\build\ns_timer.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\platform/arm_hal_interrupt.h
+.\build\ns_timer.o: mbed-os\features\nanostack\sal-stack-nanostack-eventloop\nanostack-event-loop\platform/arm_hal_timer.h
+.\build\ns_timer.o: mbed-os\features\frameworks\nanostack-libservice\mbed-client-libservice\nsdynmemLIB.h

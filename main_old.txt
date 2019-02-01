@@ -1,0 +1,49 @@
+#include "mbed.h"
+#include "SILABS_RHT.h"
+
+Serial pc(USBTX, USBRX);
+DigitalOut myled(LED1);
+DigitalOut myled2(LED2);
+//LowPowerTicker toggleTicker;
+DigitalOut sensor_en(PB3);
+// Read Temperature from Si7021
+//I2C i2c(PI4, PI5);
+I2C sensorI2C(PI4, PI5); //PI4=SDA, PI5=SCL
+silabs::SILABS_RHT rhtSensor(&sensorI2C);
+
+volatile bool busChecked = false;
+ 
+void respondedCallback( void ) {
+    busChecked = true;
+}
+
+
+int main() {
+
+    myled = 1;
+	  myled2 = 0;
+//	  sensor_en = 1; // Enable Sensor's on I2C Sensor bus
+	  CMU_ClockEnable(cmuClock_HFPER, true);
+    CMU_ClockEnable(cmuClock_GPIO, true);
+    GPIO_PinModeSet(gpioPortB, 3, gpioModePushPull, 1);
+	  sensorI2C.frequency(100000);
+		
+	  pc.baud(115200);
+    wait(5);
+    pc.printf("\nHello World\r\n");
+
+    rhtSensor.check_availability(si7021, respondedCallback);
+    while(busChecked == false) sleep();
+    
+    busChecked = false;
+    rhtSensor.measure(si7021, respondedCallback);
+    while(busChecked == false) sleep();
+ 
+    if(rhtSensor.get_active()) {
+        pc.printf("Temperature: %d.%03d degC\n", rhtSensor.get_temperature()/1000, rhtSensor.get_temperature()%1000);
+    } else {
+        pc.printf("No sensor found\n");
+    }
+ 
+    while(1) sleep();
+} 
