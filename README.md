@@ -37,7 +37,7 @@ JLink.exe -device EFM32GG11B820F2048 -if SWD -speed 2700 -commanderscript flash.
 
 flash.jlink
 
-loadfile BUILD/EFM32GG11_STK3701/GCC_ARM/mbed-os-gg11-ethernet.bin 0x0000
+loadfile BUILD/EFM32GG11_STK3701/GCC_ARM/mbed-os-gg11-Si7201.bin 0x0000
 
 r
 
